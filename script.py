@@ -1,6 +1,6 @@
 import requests
 
-username = "Sahil002620Q"
+username = input("Enter your Github Username : ")
 
 def get_all_users(endpoint):
     users = []
