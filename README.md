@@ -8,6 +8,7 @@ A smart Python tool that analyzes GitHub users and helps you find people who are
 
 ## 🙏 Credits
 
+<<<<<<< HEAD
 **Base concept and code by [Urvish L.](https://github.com/urvish)** — Original script that identifies users not following back.
 
 **Extended by [Panshul Vempalli](https://github.com/PanshulVempalli)** — Added follow-back likelihood analysis, activity tracking, follower categorization, smart filtering, and auto-follow functionality.
@@ -179,3 +180,24 @@ Done! Successfully followed 23/23 users.
 ---
 
 *Built by [Panshul Vempalli](https://github.com/PanshulVempalli) · Base concept by [Urvish L.](https://github.com/urvish)*
+=======
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/Sahil002620Q/Who-is-not-following-back-git.git](https://github.com/Sahil002620Q/Who-is-not-following-back-git.git)
+   cd Who-is-not-following-back-git
+
+## Usage
+
+- Run the script normally to see who is not following back:
+  ```bash
+  python script.py
+  ```
+
+- To unfollow users who are not following back, use:
+  ```bash
+  GITHUB_TOKEN=<your_token> python script.py --unfollow --yes
+  ```
+
+  A GitHub token is required for unfollowing.
+   
+>>>>>>> 2f65473 (add auto follow/unfollow automation)
