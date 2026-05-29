@@ -109,14 +109,7 @@ GITHUB_TOKEN=your_token python who_to_follow.py --source PanshulVempalli --endpo
 ---
 
 ## 📊 Output Example
-Fetching your current following list...
-You currently follow 1200 users
-Fetching candidates from PanshulVempalli's followers...
-Found 87 candidates you don't already follow
-Analyzing 87 users...
-Analyzed 50/87 users...
-Analyzed 87/87 users...
-=======================================================
+
 📊 ANALYSIS — 87 users analyzed
 📅 Activity Breakdown:
 Active (0-2 weeks):    34
@@ -135,7 +128,7 @@ Under 100 followers:   45
 ✅ Good  (active, ratio >=0.5, <1000 followers):  31
 🔥 Likely to follow back (active, following >= followers): 28
 📌 Active + under 100 followers:                  19
-=======================================================
+=======================================================**
 Who do you want to follow?
 
 Active (0-2 weeks)                    (34 users)
