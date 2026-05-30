@@ -8,7 +8,7 @@ A Python toolkit that identifies GitHub users who aren't following you back, fin
 
 ## 🙏 Credits
 
-**Base code by [Urvish L.](https://github.com/Sahil002620Q)** — Original script that identifies users not following back.
+**Base code by Sahil002620Q ** — Original script that identifies users not following back.
 
 **Extended by [Panshul Vempalli](https://github.com/PanshulVempalli)** — Added auto-follow, auto-unfollow, activity tracking, follower categorization, smart filtering, and GitHub Actions automation.
 
@@ -169,4 +169,4 @@ The tool runs **automatically every day at 9am** via GitHub Actions:
 
 ---
 
-*Built by [Panshul Vempalli](https://github.com/PanshulVempalli) · Base concept by [Urvish L.](https://github.com/Sahil002620Q)*
+*Built by [Panshul Vempalli](https://github.com/PanshulVempalli) · Base concept by Sahil002620Q *
