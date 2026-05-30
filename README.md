@@ -1,60 +1,88 @@
- Who To Follow 🎯
+# Who Is Not Following Back & Auto Follow/Unfollow 🔍🤖
 
 ![GitHub](https://img.shields.io/badge/GitHub-Tool-black) ![Python](https://img.shields.io/badge/Python-3.x-blue) ![License](https://img.shields.io/badge/License-MIT-green)
 
-A smart Python tool that analyzes GitHub users and helps you find people who are **most likely to follow you back** — based on their activity, follower count, and follow-back ratio.
+A Python toolkit that identifies GitHub users who aren't following you back, finds new users likely to follow you back, and automatically manages your following list.
 
 ---
 
 ## 🙏 Credits
 
-<<<<<<< HEAD
-**Base concept and code by [Urvish L.](https://github.com/urvish)** — Original script that identifies users not following back.
+**Base code by [Urvish L.](https://github.com/Sahil002620Q)** — Original script that identifies users not following back.
 
-**Extended by [Panshul Vempalli](https://github.com/PanshulVempalli)** — Added follow-back likelihood analysis, activity tracking, follower categorization, smart filtering, and auto-follow functionality.
+**Extended by [Panshul Vempalli](https://github.com/PanshulVempalli)** — Added auto-follow, auto-unfollow, activity tracking, follower categorization, smart filtering, and GitHub Actions automation.
 
 ---
 
 ## ✨ Features
 
-- 📅 **Activity breakdown** — categorizes users by how recently they were active
-- 👥 **Follower breakdown** — splits users by follower count
-- 🔥 **Follow-back likelihood** — identifies users most likely to follow you back
-- ⭐ **Smart filtering** — finds users where `following >= followers` (they follow back a lot)
-- 🤖 **Auto-follow** — follow your chosen group automatically
-- ✅ **Confirmation prompt** — always asks before following anyone
+- 🔍 **Identifies** all users not following you back
+- 📊 **Categorizes** users by activity and follower count
+- 🔥 **Smart follow** — finds users most likely to follow you back
+- ❌ **Auto-unfollow** — unfollows users who didn't follow back after 30 days
+- 🤖 **Fully automated** — runs every day via GitHub Actions
+- ✅ **Confirmation prompts** — always asks before taking action
 - ⚡ **Rate limit protection** — built-in delays to avoid GitHub API limits
+
+---
+
+## 📁 Scripts
+
+| Script | Description |
+|--------|-------------|
+| `script.py` | Identifies who isn't following you back and optionally unfollows them |
+| `who_to_follow.py` | Analyzes users and finds best candidates to follow for follow-backs |
+| `auto_follow.py` | Automated daily follow/unfollow script used by GitHub Actions |
 
 ---
 
 ## 🧠 How It Works
 
-The tool pulls a list of candidate users from a source account (e.g. your own followers, or a popular account's followers). It then analyzes each candidate and sorts them into groups based on:
+### 🔍 script.py — Who isn't following back?
+Scans your following list and compares it to your followers. Shows a breakdown of who isn't following back categorized by:
 
-### 📅 Activity
+**Activity:**
 | Bucket | Description |
 |--------|-------------|
-| Active (0-2 weeks) | Recently active — most likely to engage |
+| Active (0-2 weeks) | Recently active |
 | 2-4 weeks | Slightly less active |
 | 4 weeks-6 months | Moderately inactive |
 | 6 months-1 year | Mostly inactive |
-| 1 year+ | Likely abandoned account |
-| Unknown | No activity data available |
+| 1 year+ | Likely abandoned |
+| Unknown | No activity data |
 
-### 👥 Follower Count
-| Group | Range |
-|-------|-------|
-| Small | Under 100 followers |
-| Medium | 100-500 followers |
-| Large | 500-1000 followers |
-| Big | 1000+ followers |
+Then asks you who to unfollow:
 
-### 🎯 Follow-Back Likelihood
-The key metric is the **follow-back ratio**:
-follow_back_ratio = following / followers
-- A ratio **≥ 1.0** means they follow more people than follow them → **very likely to follow back**
-- A ratio **≥ 0.5** means they follow a decent amount → **likely to follow back**
-- A ratio **< 0.3** means they are selective → **unlikely to follow back**
+Unfollow everyone not following back
+Unfollow all inactive users
+Unfollow inactive users with under 100 followers
+Unfollow users inactive 6 months+ with under 100 followers
+Unfollow users inactive for 1 year+
+Cancel
+
+
+### 🔥 who_to_follow.py — Who should I follow?
+Scans a source account's followers and analyzes each user based on:
+- **Activity** — how recently they were active
+- **Follower count** — how big their account is
+- **Follow-back ratio** — `following / followers` — higher ratio = more likely to follow back
+
+Then asks you who to follow:
+
+Active (0-2 weeks)
+Inactive 2-4 weeks
+...
+🔥 Likely to follow back
+⭐ Best follow-back candidates
+...
+Cancel
+
+
+### 🤖 auto_follow.py — Fully Automated
+Runs every day via GitHub Actions and:
+- **Follows** 100 new users most likely to follow back
+- **Unfollows** anyone who didn't follow back after 30 days
+- **Saves a log** in `follow_log.json` to track everyone followed and when
 
 ---
 
@@ -65,7 +93,6 @@ follow_back_ratio = following / followers
 - `requests` library
 
 ### Installation
-
 ```bash
 git clone https://github.com/PanshulVempalli/Who-is-not-following-back-git
 cd Who-is-not-following-back-git
@@ -73,99 +100,62 @@ pip install requests
 ```
 
 ### GitHub Token Setup
-
-You need a GitHub Personal Access Token with `user:follow` scope:
-
 1. Go to **github.com/settings/tokens**
 2. Click **"Generate new token (classic)"**
 3. Check the **`user`** scope
-4. Copy the generated token
+4. Copy the token
 
 ---
 
 ## 📖 Usage
 
-### Basic usage (scan your own followers):
+### CHANGE THE USER 
+
+The algorithm runs on my account ( Panshul Vempalli ) - change it to your username for it to work
+
+### Check who isn't following back:
 ```bash
-GITHUB_TOKEN=your_token python who_to_follow.py
+GITHUB_TOKEN=your_token python script.py
 ```
 
-### Scan a specific account's followers:
+### Unfollow users not following back:
+```bash
+GITHUB_TOKEN=your_token python script.py --unfollow
+```
+
+### Find best users to follow:
 ```bash
 GITHUB_TOKEN=your_token python who_to_follow.py --source torvalds --endpoint followers --limit 100
 ```
 
-### Scan a specific account's following list:
+### Run auto follow/unfollow manually:
 ```bash
-GITHUB_TOKEN=your_token python who_to_follow.py --source PanshulVempalli --endpoint following --limit 100
+GITHUB_TOKEN=your_token python auto_follow.py
 ```
-
-### Arguments
-| Argument | Default | Description |
-|----------|---------|-------------|
-| `--source` | Your username | Account to pull candidates from |
-| `--endpoint` | `followers` | Use `followers` or `following` list |
-| `--limit` | `100` | Number of candidates to analyze |
 
 ---
 
-## 📊 Output Example
+## 🤖 GitHub Actions Automation
 
-📊 ANALYSIS — 87 users analyzed
-📅 Activity Breakdown:
-Active (0-2 weeks):    34
-2-4 weeks:             12
-4 weeks-6 months:      18
-6 months-1 year:        9
-1 year+:                8
-Unknown:                6
-👥 Follower Breakdown:
-Under 100 followers:   45
-100-500 followers:     28
-500-1000 followers:     8
-1000+ followers:        6
-🎯 Follow-Back Likelihood:
-⭐ Best  (active, following >= followers, <500):   23
-✅ Good  (active, ratio >=0.5, <1000 followers):  31
-🔥 Likely to follow back (active, following >= followers): 28
-📌 Active + under 100 followers:                  19
-=======================================================**
-Who do you want to follow?
+The tool runs **automatically every day at 9am** via GitHub Actions:
+- Follows 100 new people likely to follow back
+- Unfollows anyone who didn't follow back after 30 days
 
-Active (0-2 weeks)                    (34 users)
-Inactive 2-4 weeks                    (12 users)
-...
-🔥 Likely to follow back              (28 users)
-⭐ Best follow-back candidates        (23 users)
-...
-Cancel
-
-Choose an option (1-15): 11
-Found 23 users to follow (best follow-back candidates)
-Are you sure you want to follow 23 users? [y/N]: y
-Following 23 users...
-[1/23] Followed user123
-[2/23] Followed user456
-...
-Done! Successfully followed 23/23 users.
+### Setup:
+1. Go to repo **Settings → Actions → General**
+2. Set **Workflow permissions** to **"Read and write"**
+3. Go to **Settings → Secrets → Actions**
+4. Add secret: `FOLLOW_TOKEN` = your GitHub token
+5. The workflow runs automatically every day!
 
 ---
 
 ## ⚠️ Important Notes
 
-- **Rate Limiting** — GitHub allows 5000 API requests per hour with a token. Keep `--limit` under 200 to stay safe.
-- **Token Security** — Never share or commit your GitHub token publicly.
-- **Best Source** — Using your own followers as the source gives the best results since they're already interested in your profile.
-- **Use Responsibly** — Avoid running this too frequently to stay within GitHub's Terms of Service.
-
----
-
-## 💡 Pro Tips
-
-- Use `--limit 50` to stay well within rate limits
-- Best source accounts to scan: your own followers, or accounts in your area of interest
-- Always use option **10 or 11** for highest follow-back chance
-- Run once a day for best results without hitting rate limits
+- **Rate Limiting** — Keep `--limit` under 200 to avoid hitting GitHub's API limit
+- **Token Security** — Never share or commit your GitHub token publicly
+- **Stay Safe** — Keep follows under 100/day to avoid account flags
+- **Use Responsibly** — Excessive automation may violate GitHub's Terms of Service
 
 ---
 
@@ -173,31 +163,10 @@ Done! Successfully followed 23/23 users.
 
 - [ ] Auto-retry on rate limit with countdown timer
 - [ ] Export results to CSV
-- [ ] Scan multiple source accounts at once
 - [ ] Filter by location or bio keywords
 - [ ] Support for organizations
+- [ ] Web dashboard to view follow/unfollow stats
 
 ---
 
-*Built by [Panshul Vempalli](https://github.com/PanshulVempalli) · Base concept by [Urvish L.](https://github.com/urvish)*
-=======
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/Sahil002620Q/Who-is-not-following-back-git.git](https://github.com/Sahil002620Q/Who-is-not-following-back-git.git)
-   cd Who-is-not-following-back-git
-
-## Usage
-
-- Run the script normally to see who is not following back:
-  ```bash
-  python script.py
-  ```
-
-- To unfollow users who are not following back, use:
-  ```bash
-  GITHUB_TOKEN=<your_token> python script.py --unfollow --yes
-  ```
-
-  A GitHub token is required for unfollowing.
-   
->>>>>>> 2f65473 (add auto follow/unfollow automation)
+*Built by [Panshul Vempalli](https://github.com/PanshulVempalli) · Base concept by [Urvish L.](https://github.com/Sahil002620Q)*
